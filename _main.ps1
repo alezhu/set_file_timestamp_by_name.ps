@@ -44,14 +44,14 @@ function Set-TimestampFromName {
             $File.LastWriteTime = $date
             # $File.LastAccessTime = $date
 
-            Write-Output "File updated: $($File.FullName) -> $date"
+            Write-Output "File updated: $($File.FullName) -> $($date.ToString('yyyy.MM.dd HH:mm:ss'))"
         }
         catch {
             Write-Warning "Can't set timestamps for file '$($File.FullName)': $_"
         }
     }
     else {
-        Write-Output "File skipped: $($File.Name)"
+        Write-Output "File skipped: $($File.FullName)"
     }
 }
 

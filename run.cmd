@@ -20,23 +20,15 @@ IF NOT DEFINED INPUT_PATH (
     GOTO end
 )
 
+REM If the path ends with a backslash, remove it to prevent issues with PowerShell argument parsing
+REM IF "%INPUT_PATH:~-1%"=="\" SET "INPUT_PATH=%INPUT_PATH:~0,-1%"
+
 ECHO Processing path: %INPUT_PATH%
 IF DEFINED PATTERN (
     ECHO Pattern: %PATTERN%
+    powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0\_main.ps1" -InputPath %INPUT_PATH% -Pattern "%PATTERN%"
 ) ELSE (
-    ECHO Pattern: (default)
+    ECHO Pattern: (default) 
+    powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0\_main.ps1" -InputPath %INPUT_PATH%
 )
-
-REM If the path ends with a backslash, remove it to prevent issues with PowerShell argument parsing
-IF "%INPUT_PATH:~-1%"=="\" SET "INPUT_PATH=%INPUT_PATH:~0,-1%"
-
-IF DEFINED PATTERN (
-    powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0\_main.ps1" -InputPath "%INPUT_PATH%" -Pattern "%PATTERN%"
-) ELSE (
-    powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0\_main.ps1" -InputPath "%INPUT_PATH%"
-)
-
-GOTO end
-
-:end
 ENDLOCAL
